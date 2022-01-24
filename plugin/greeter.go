@@ -6,8 +6,8 @@ import "fmt"
 
 type greeting string
 
-func (g greeting) Greet() {
-	fmt.Println("Hello Universe")
+func (g greeting) Greet(name string) {
+	fmt.Println("Hello " + name)
 }
 
 // exported as symbol named "Greeter"

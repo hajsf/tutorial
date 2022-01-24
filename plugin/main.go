@@ -9,7 +9,7 @@ import (
 )
 
 type Greeter interface {
-	Greet()
+	Greet(string)
 }
 
 func main() {
@@ -42,7 +42,7 @@ func main() {
 	}
 
 	// 4. use the module
-	greeter.Greet()
+	greeter.Greet("Go lang")
 
 }
 
