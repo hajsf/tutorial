@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "lib.h"
+#include "libadd.h"
 #include "libgo.h"
 
 int main()
@@ -10,5 +10,5 @@ int main()
     return 0;
 }
 
-// clang -o hello -L. -ladd -lgo main.c   // -lhello => -l (library) is libhello
+// clang -o main -L. -ladd -lgo main.c   // -ladd => -l (library) is libadd
 // ./hello  // execute the hellow output
