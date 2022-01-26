@@ -1,18 +1,15 @@
 package main
 
-// #include "main.h"
-// #include  <stdio.h>
-// int Add2(int x)
-// {
-//	    printf("Welcome from inline C function\n");
-//	    return x + 2;
-// }
+//#include  <stdio.h>
+//int Add(int a, int b){
+//    printf("Welcome from external C function\n");
+//    return a + b;
+//}
 import "C"
 import "fmt"
 
 func main() {
-	fmt.Println(C.Add(1, 2))
-	fmt.Println(C.Add2(5))
+	fmt.Println(C.Add(5, 2))
 }
 
 // no new lines entry allowed between the `#include` and the `import C`
@@ -22,4 +19,6 @@ func main() {
 // go run .
 // OR (preferable)
 // go run github.io/hajsf/ffi
-// go run main.go will not work as it will consider main.go only, and not consider the C file
+// go run main.go will work also as every thing in the same file
+
+// go build main.go

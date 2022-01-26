@@ -4,4 +4,6 @@ int Add(int a, int b){
     return a + b;
 }
 
-// clang -shared -fpic main.c -o libhello.dylib
+// clang -shared -fpic lib.c -o libadd.a
+// or
+// clang -shared -fpic -Wall -g lib.c -o libadd.so

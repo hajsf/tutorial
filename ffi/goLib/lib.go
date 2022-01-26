@@ -8,9 +8,9 @@ import "fmt"
 
 //export HelloWorld
 func HelloWorld() {
-	fmt.Printf("hello world")
+	fmt.Printf("hello world fro GO\n")
 }
 
 func main() {}
 
-// go build -tags lib -buildmode=c-shared -o golib.a lib.go
+// go build -tags lib -buildmode=c-shared -o ../libraries/libgo.a lib.go
