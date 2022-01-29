@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.io/hajsf/print/model"
+)
 
 func main() {
-	fmt.Println("HI", model.name)
+	fmt.Println("HI", model.Name)
 }
