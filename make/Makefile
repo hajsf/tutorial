@@ -1,4 +1,8 @@
+# the`#` means comment line
 hello:
+# using @ in fornt of the bash command will execute the command with directly
+# without shouwing the command itself on the screen
+	@echo "hello"
 	echo "Hello"
 
 build:
