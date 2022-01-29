@@ -1,3 +1,3 @@
 package model
 
-var name = "Go lang"
+var Name = "Go lang"
