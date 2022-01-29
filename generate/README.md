@@ -1,0 +1,1 @@
+//go:generate command arguments
