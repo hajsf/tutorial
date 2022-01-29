@@ -17,6 +17,8 @@ func main() {
 //go:embed static
 var embededFiles embed.FS
 
+// Files started with . or _ are not embeded
+
 func getFileSystem(useOS bool) http.FileSystem {
 	if useOS {
 		log.Print("using live mode")
