@@ -11,3 +11,6 @@ func main() {
 }
 
 // var name type = expression
+
+// https://www.golangprograms.com/go-language/variables.html
+https://www.golang-book.com/books/intro/4
