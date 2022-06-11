@@ -7,11 +7,16 @@
 package mjpeg
 
 import (
+	"bytes"
 	"fmt"
+	"image"
+	j "image/jpeg"
 	"log"
 	"net/http"
 	"sync"
 	"time"
+
+	"golang.org/x/image/draw"
 )
 
 // Stream represents a single video feed.
@@ -62,8 +67,23 @@ func (s *Stream) UpdateJPEG(jpeg []byte) {
 		s.frame = make([]byte, (len(jpeg)+len(header))*2)
 	}
 
+	// Decode the image (from PNG to image.Image):
+	src, _ := j.Decode(bytes.NewReader(jpeg))
+
+	// Set the expected size that you want:
+	dst := image.NewRGBA(image.Rect(0, 0, src.Bounds().Max.X/3, src.Bounds().Max.Y/3))
+
+	// Resize:
+	draw.NearestNeighbor.Scale(dst, dst.Rect, src, src.Bounds(), draw.Over, nil)
+
+	buf := new(bytes.Buffer)
+
+	// Encode to `buf`:
+	j.Encode(buf, dst, nil)
+
 	copy(s.frame, header)
-	copy(s.frame[len(header):], jpeg)
+	//	copy(s.frame[len(header):], jpeg)
+	copy(s.frame[len(header):], buf.Bytes())
 
 	s.lock.Lock()
 	for c := range s.m {
