@@ -1,0 +1,20 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+  <h1>Counter: <span id="counter_val"></span></h1>
+  <!-- 
+  <object data="http://localhost:1234/sse/dashboard" width="300" height="200" alt="Cam streaming"></object>
+  -->
+  <script>
+    var source = new EventSource("http://localhost:1234/sse/dashboard");
+    source.onmessage = function (event) {
+        var counter = JSON.parse(event.data);
+        document.getElementById("counter_val").innerHTML = counter;
+    }
+  </script>
+</body>
+</html>
