@@ -1,0 +1,27 @@
+<html>
+<head></head>
+<body>
+    <img id="photo" alt="Girl in a jacket" width="500" height="600">
+</body>
+    <script type="text/javascript">
+        const myRequest = new Request('http://localhost:8080/blue/', {
+        method: 'GET',
+        headers: new Headers(),
+        type: "arraybuffer",
+        mode: 'cors',
+        cache: 'default',
+        });
+
+        fetch(myRequest)
+            .then(response => response.blob())
+            .then(blob => {
+                var reader = new FileReader();
+                reader.readAsDataURL(blob); 
+                reader.onloadend = function() {
+                    var imageUrl = reader.result;                
+                    var img = document.querySelector("#photo");
+                    img.src = imageUrl;
+                }
+            });
+    </script>
+</html>
