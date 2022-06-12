@@ -1,0 +1,14 @@
+<html>
+<head></head>
+<body>
+    <div id="counter"  width="500" height="600">
+</body>
+    <script>
+        var source = new EventSource("http://localhost:9999/");
+        source.onmessage = function (event) {
+            console.log(event)
+            var counter = event.data; // JSON.parse(event.data);
+            document.getElementById("counter").innerHTML = counter;
+        }
+    </script>
+</html>
