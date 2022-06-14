@@ -64,6 +64,7 @@ func main() {
 
 	if client.Store.ID == nil {
 		// No ID stored, new login
+	GetQR:
 		qrChan, _ := client.GetQRChannel(context.Background())
 		err = client.Connect()
 		if err != nil {
@@ -79,8 +80,9 @@ func main() {
 				}
 			case "timeout":
 				{
-					passer.logs <- "timeout"
+					passer.logs <- "timeout/Refreshing"
 					fmt.Println("Login event: timeout")
+					goto GetQR
 				}
 			case "code":
 				{
