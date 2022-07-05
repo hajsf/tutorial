@@ -100,7 +100,7 @@ async function send(params) {
             str = str.shift() + str // first elemet of the array + array without first element
         }
     
-        newRow.innerHTML='<td onclick="tdclick(this)">'+element.file+'</td><td>'+str+'</td>'
+        newRow.innerHTML='<td onclick="tdclick(this)" data-index-file='+element.file+'>'+element.file+'</td><td>'+str+'</td>'
         tblData.appendChild(newRow) 
       });
 
@@ -112,6 +112,7 @@ async function send(params) {
 
 function tdclick(el){
     console.log(el.innerHTML);
+    console.log(el.dataset.indexFile);
     var pdf = document.querySelector('#pdf');
     pdf.src = "http://localhost:3000/pdf/"+el.innerHTML+".pdf"
 }
