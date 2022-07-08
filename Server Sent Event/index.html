@@ -10,11 +10,28 @@
   <object data="http://localhost:1234/sse/dashboard" width="300" height="200" alt="Cam streaming"></object>
   -->
   <script>
-    var source = new EventSource("http://localhost:1234/sse/dashboard");
-    source.onmessage = function (event) {
+    const eventSource = new EventSource("http://localhost:1235/sse");
+    // const eventSource = new EventSource("http://localhost:8000/api/events", { withCredentials: true });
+    // a withCredentials property can be set to true, which means that the Cookie will be sent together
+    eventSource.onmessage = function (event) {
         var counter = JSON.parse(event.data);
         document.getElementById("counter_val").innerHTML = counter;
     }
+
+    // OR
+    /*
+    eventSource.addEventListener("message", (event) => {
+        // "event.data" is a string
+        const data = JSON.parse(event.data);
+  
+        // Prints whatever was sent by the server
+        console.log(data);
+    });
+    */
+
+    // Custom event handler
+    handleReceiveMessage = (event) => console.log(event.data);
+        eventSource.addEventListener("join", handleReceiveMessage);
   </script>
 </body>
 </html>
