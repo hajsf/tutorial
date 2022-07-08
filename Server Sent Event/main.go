@@ -31,10 +31,12 @@ func main() {
 
 		// send custom events
 		// Event name: join // used in the client as: eventSource.addEventListener("join", handleReceiveMessage);
-		// Event data: %v => data // used in the client as: const eventData = JSON.parse(event.data);
+		// Event data [only mandatory field]: %v => data in JSON.stringify format // used in the client as: const eventData = JSON.parse(event.data);
 		// Event id: nid:500 // used in the client as: eventSource.lastEventId
-		//fmt.Fprintf(w, "event: join\ndata: %v\nid:500\n\n", data)
-		// Important note: \n does a line break. \n\n means the end of the message, do not forget to add that.
+		// Event retry // used in the client as waiting time in millisecond before refresh
+		// \n\n means the end of the message, Important note: \n does a line break. do not forget to end the message by \n\n
+		//fmt.Fprintf(w, "event: join\ndata: %v\nid:500\nretry:5000\n\n", data)
+
 		fmt.Fprintf(w, "event: join\ndata: Welcome %v\n\n", socket)
 		flusher.Flush()
 
@@ -59,9 +61,6 @@ func main() {
 			}
 		}
 	}))
-
-	// Retry each 5 seconds
-	// fmt.Fprintf(w, `retry:5000\ndata: ${JSON.stringify(message)}\n\n`);
 
 	if err := http.ListenAndServe(":1235", nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
