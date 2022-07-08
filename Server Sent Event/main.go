@@ -14,8 +14,11 @@ var (
 )
 
 func main() {
-	http.Handle("/sse/dashboard", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("from here")
+	var sockets Sockets
+	http.Handle("/sse", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		socket := r.RemoteAddr
+		sockets = append(sockets, socket)
+		fmt.Println("sockets connected", sockets)
 		flusher, ok := w.(http.Flusher)
 		if !ok {
 			http.Error(w, "Internal error", 500)
@@ -25,6 +28,15 @@ func main() {
 		w.Header().Set("Cache-Control", "no-cache")
 		w.Header().Set("Connection", "keep-alive")
 		setupCORS(&w, r)
+
+		// send custom events
+		// Event name: join // used in the client as: eventSource.addEventListener("join", handleReceiveMessage);
+		// Event data: %v => data // used in the client as: const eventData = JSON.parse(event.data);
+		// Event id: nid:500 // used in the client as: eventSource.lastEventId
+		//fmt.Fprintf(w, "event: join\ndata: %v\nid:500\n\n", data)
+		// Important note: \n does a line break. \n\n means the end of the message, do not forget to add that.
+		fmt.Fprintf(w, "event: join\ndata: Welcome %v\n\n", socket)
+		flusher.Flush()
 
 		t := time.NewTicker(time.Second)
 		defer t.Stop()
@@ -38,12 +50,20 @@ func main() {
 				fmt.Fprintf(w, "data: %v\n\n", c)
 				flusher.Flush()
 			case <-r.Context().Done():
+				fmt.Println(len(sockets))
+				sockets.RemoveElement(socket)
+				fmt.Println(len(sockets))
+				fmt.Println("sockets connected", sockets)
+				fmt.Println(len(sockets))
 				return
 			}
 		}
 	}))
 
-	if err := http.ListenAndServe(":1234", nil); err != nil {
+	// Retry each 5 seconds
+	// fmt.Fprintf(w, `retry:5000\ndata: ${JSON.stringify(message)}\n\n`);
+
+	if err := http.ListenAndServe(":1235", nil); err != nil {
 		log.Fatal("ListenAndServe:", err)
 	}
 }
