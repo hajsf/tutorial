@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package protobuf;
+option go_package = "/proto";
+
+import "google/api/annotations.proto";
+
+service StreamService {
+  rpc FetchResponse (Request) returns (stream Response) {
+    option (google.api.http) = {
+      get: "/v1/example/stream"
+    };
+  }
+}
+
+message Request {
+  int32 id = 1;
+}
+
+message Response {
+  string result = 1;
+}
