@@ -2,8 +2,10 @@ package main
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 )
 
@@ -27,7 +29,29 @@ Ken;Thompson;ken
 
 	// Read csv file headers
 	header := readCSVHeader("./input.csv")
-	fmt.Println(header)
+	jsonByte, err := json.Marshal(header)
+	if err != nil {
+		fmt.Printf("Error: %s", err.Error())
+	} else {
+		fmt.Println(string(jsonByte))
+	}
+
+	// Save the header to text file
+	f, err := os.Create("headers.txt")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer f.Close()
+
+	_, err2 := f.WriteString(string(jsonByte))
+
+	if err2 != nil {
+		log.Fatal(err2)
+	}
+
+	fmt.Println("done")
 
 	// Read from file using the provided handlers
 
